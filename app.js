@@ -10,11 +10,14 @@ mongoose.connect('mongodb+srv://myehealthdiary:PfOzTV9QpdjCoUzi@myehealthdiary.a
     useNewUrlparser: true,
 });
 
-app.get('/', async (req, res) => {
+app.post('/', async (req, res) => {
+
     const user = new UserModel({ userName: "Nishu", userId: 2 });
 
     try {
         await user.save();
+        res.status(200).json({ message: 'user added successful!' });
+
     } 
     catch(err) {
         console.log(err);

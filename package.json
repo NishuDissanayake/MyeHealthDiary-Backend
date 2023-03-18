@@ -4,8 +4,11 @@
   "description": "My eHealth Diary is an application that focuses on patient empowerment on personal health care. This application comes with a set of features that helps individuals to keep track of their health conditions over their lifetime with the help of medical health professionals.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NishuDissanayake/MyeHealthDiary-Backend.git"
@@ -18,6 +21,7 @@
   "homepage": "https://github.com/NishuDissanayake/MyeHealthDiary-Backend#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^7.0.2"
+    "mongoose": "^7.0.2",
+    "nodemon": "^2.0.21"
   }
 }
