@@ -10,7 +10,7 @@ mongoose.connect('mongodb+srv://myehealthdiary:PfOzTV9QpdjCoUzi@myehealthdiary.a
     useNewUrlparser: true,
 });
 
-app.post('/', async (req, res) => {
+/* app.post('/', async (req, res) => {
 
     const user = new UserModel({ userName: "Nishu", userId: 2 });
 
@@ -23,6 +23,8 @@ app.post('/', async (req, res) => {
         console.log(err);
     }
 });
+
+*/
 
 app.listen(5000, ()=> {
     console.log('Server running on port 5000');
