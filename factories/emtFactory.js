@@ -1,23 +1,20 @@
-const doctorModel = require('./../models/Doctors');
+const emtModel = require('./../models/EMTs');
 
-class doctorFactory {
-    static addDoctor (doctor_id, doctor_name, hospital, specialization, qualifications, phone_number, email, passwrd, added_by) {
+class emtFactory {
+    static addEmt (emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by) {
 
     // Perform data validation checks
-    if (typeof doctor_id !== 'string' || doctor_id.length === 0) {
-        throw new Error('Doctor registration ID number is required!');
+    if (typeof emt_id !== 'string' || emt_id.length === 0) {
+        throw new Error('Emergency Medical Team member registration ID number is required!');
       }
-      if (typeof doctor_name !== 'string' || doctor_name.length === 0) {
-        throw new Error('Doctor name is required!');
+      if (typeof emt_name !== 'string' || emt_name.length === 0) {
+        throw new Error('Emergency Medical Team member name is required!');
       }
       if (typeof hospital !== 'string' || hospital.length === 0) {
         throw new Error('Hospital name is required!');
       }
-      if (typeof specialization !== 'string' || specialization.length === 0) {
-        throw new Error('Specialization is required!');
-      }
-      if (typeof qualifications !== 'string' || qualifications.length === 0) {
-        throw new Error('Qualifications are required!');
+      if (typeof designation !== 'string' || designation.length === 0) {
+        throw new Error('Designation is required!');
       }
       if (phone_number.length !== 10) {
         throw new Error('Phone number is required!');
@@ -29,23 +26,26 @@ class doctorFactory {
       if (typeof email !== 'string' || email.length === 0) {
         throw new Error('Email is required!');
       }
+      if (typeof passwrd !== 'string' || passwrd.length === 0) {
+        throw new Error('Password is required!');
+      }
       if (typeof added_by !== 'string' || added_by.length === 0) {
         throw new Error('The person who added this record is required!');
       }
       
-      const doctor = new doctorModel({
-        doctor_id: doctor_id,
-        doctor_name: doctor_name,
+      const emt = new emtModel({
+        emt_id: emt_id,
+        emt_name: emt_name,
         hospital: hospital,
-        specialization: specialization,
-        qualifications: qualifications,
+        designation: designation,
         phone_number: phone_number,
         email: email,
+        passwrd: passwrd,
         added_by: added_by
     })
 
-      return doctor;
+      return emt;
     }
 }
 
-module.exports = doctorFactory;
+module.exports = emtFactory;

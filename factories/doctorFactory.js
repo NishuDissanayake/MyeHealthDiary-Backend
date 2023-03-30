@@ -29,6 +29,9 @@ class doctorFactory {
       if (typeof email !== 'string' || email.length === 0) {
         throw new Error('Email is required!');
       }
+      if (typeof passwrd !== 'string' || passwrd.length === 0) {
+        throw new Error('Password is required!');
+      }
       if (typeof added_by !== 'string' || added_by.length === 0) {
         throw new Error('The person who added this record is required!');
       }
@@ -41,6 +44,7 @@ class doctorFactory {
         qualifications: qualifications,
         phone_number: phone_number,
         email: email,
+        passwrd: passwrd,
         added_by: added_by
     })
 
