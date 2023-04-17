@@ -47,6 +47,16 @@ const UserSchema = new mongoose.Schema({
         require: true
     },
 
+    blood_group: {
+        type: String,
+        reuire: true
+    },
+
+    chronic_disease: {
+        type: String,
+        reuire: true
+    },
+
     email: {
         type: String,
         reuire: true,
@@ -129,11 +139,11 @@ const UserSchema = new mongoose.Schema({
                 type: Date
             },
 
-            diagnosis: {
+            primary_diagnosis: {
                 type: String
             },
 
-            patient_nic: {
+            patient_name: {
                 type: String
             },
 
@@ -157,6 +167,9 @@ const UserSchema = new mongoose.Schema({
 
                     treatment: {
                         type: String
+                    },
+                    added_by: {
+                        type: String
                     }
                 }
             ],
@@ -168,6 +181,9 @@ const UserSchema = new mongoose.Schema({
                     },
 
                     bladder_bowel_function: {
+                        type: String
+                    },
+                    added_by: {
                         type: String
                     }
                 }
@@ -185,6 +201,9 @@ const UserSchema = new mongoose.Schema({
 
                     test_comments: {
                         type: String
+                    },
+                    added_by: {
+                        type: String
                     }
                 }
             ],
@@ -198,6 +217,9 @@ const UserSchema = new mongoose.Schema({
                     temperature: {
                         type: String
                     },
+                    added_by: {
+                        type: String
+                    }
                 }
             ],
 
@@ -210,15 +232,51 @@ const UserSchema = new mongoose.Schema({
                     blood_pressure: {
                         type: String
                     },
+                    added_by: {
+                        type: String
+                    }
                 }
             ],
 
-            comments: {
-                type: String
-            },
+            comments: [
+                {
+                    date: {
+                        type: Date
+                    },
+                    comment: {
+                        type: String
+                    },
+                    added_by: {
+                        type: String
+                    }
+                }
+            ],
+
+            reports: [
+                {
+                    date: {
+                        type: Date
+                    },
+
+                    report_name: {
+                        type: String
+                    },
+
+                    report_type: {
+                        type: String
+                    },
+
+                    report_link: {
+                        type: String
+                    },
+                    added_by: {
+                        type: String
+                    }
+                }
+            ],
 
             next_clinic_date: {
-                type: Date
+                type: String
             }
 
         }
@@ -259,6 +317,10 @@ const UserSchema = new mongoose.Schema({
             },
 
             night: {
+                type: String
+            },
+
+            comments: {
                 type: String
             },
 
