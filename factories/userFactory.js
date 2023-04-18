@@ -92,6 +92,69 @@ class userFactory {
 
         return allergy;
     }
+
+    static addMood(nic, date, mood, symptoms, other_conditions) {
+
+        // Perform data validation checks
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof mood !== 'string' || mood.length === 0) {
+            throw new Error('Moods are required!');
+        }
+        if (typeof symptoms !== 'string' || symptoms.length === 0) {
+            throw new Error('Symptoms are required!');
+        }
+        if (typeof other_conditions !== 'string' || other_conditions.length === 0) {
+            throw new Error('Other conditions are required!');
+        }
+
+        const moods = {
+            date: date,
+            mood: mood,
+            symptoms: symptoms,
+            other_conditions: other_conditions
+        }
+
+        return moods;
+    }
+
+    static addVaccination(nic, vaccine_name, date, dosage, batch_number, location) {
+
+        // Perform data validation checks
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof vaccine_name !== 'string' || vaccine_name.length === 0) {
+            throw new Error('Vaccine name is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof dosage !== 'string' || dosage.length === 0) {
+            throw new Error('dosage is required!');
+        }
+        if (typeof batch_number !== 'string' || batch_number.length === 0) {
+            throw new Error('Batch number is required!');
+        }
+        if (typeof location !== 'string' || location.length === 0) {
+            throw new Error('Location is required!');
+        }
+
+        const vaccine = {
+            vaccine_name: vaccine_name,
+            date: date,
+            dosage: dosage,
+            batch_number: batch_number,
+            location: location
+        }
+
+        return vaccine;
+    }
+
 }
 
 module.exports = userFactory;
