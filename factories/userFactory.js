@@ -155,6 +155,97 @@ class userFactory {
         return vaccine;
     }
 
+    static addcurrentMed(nic, date_issued, med_name, type, dosage, meals, morning, noon, night, comments, state) {
+
+        // Perform data validation checks
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (date_issued.length === 0) {
+            throw new Error('Starting date is required!');
+        }
+        if (typeof med_name !== 'string' || med_name.length === 0) {
+            throw new Error('Medicine name is required!');
+        }
+        if (typeof type !== 'string' || type.length === 0) {
+            throw new Error('Medicine type is required!');
+        }
+        if (typeof meals !== 'string' || meals.length === 0) {
+            throw new Error('Meal relevance is required!');
+        }
+        if (typeof morning !== 'string' || morning.length === 0) {
+            throw new Error('Morning status is required!');
+        }
+        if (typeof noon !== 'string' || noon.length === 0) {
+            throw new Error('Noon status is required!');
+        }
+        if (typeof night !== 'string' || night.length === 0) {
+            throw new Error('Night status is required!');
+        }
+        if (typeof comments !== 'string' || comments.length === 0) {
+            throw new Error('Comment is required!');
+        }
+        if (typeof state !== 'string' || state.length === 0) {
+            throw new Error('State is required!');
+        }
+
+        const currentmed = {
+            date_issued: date_issued,
+            med_name: med_name,
+            type: type,
+            dosage: dosage,
+            meals: meals,
+            morning: morning,
+            noon: noon,
+            night: night,
+            comments: comments,
+            state: state
+        }
+
+        return currentmed;
+    }
+
+    static addRecords(nic, type, date, primary_diagnosis, doctor_in_charge, admitted_date, date_of_discharge, next_clinic_date) {
+
+        // Perform data validation checks
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof type !== 'string' || type.length === 0) {
+            throw new Error('Medical record type is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof primary_diagnosis !== 'string' || primary_diagnosis.length === 0) {
+            throw new Error('Primary diagnosis is required!');
+        }
+        if (typeof doctor_in_charge !== 'string' || doctor_in_charge.length === 0) {
+            throw new Error('Doctor in charge is required!');
+        }
+        if (admitted_date.length === 0) {
+            throw new Error('Admitted date is required!');
+        }
+        if (date_of_discharge.length === 0) {
+            throw new Error('Date of discharge is required!');
+        }
+        if (next_clinic_date.length === 0) {
+            throw new Error('Next clinic date is required!');
+        }
+
+        const report = {
+            type: type,
+            date: date,
+            primary_diagnosis: primary_diagnosis,
+            doctor_in_charge: doctor_in_charge,
+            admitted_date: admitted_date,
+            date_of_discharge: date_of_discharge,
+            next_clinic_date: next_clinic_date
+        }
+
+        return report;
+    }
+
 }
 
 module.exports = userFactory;
