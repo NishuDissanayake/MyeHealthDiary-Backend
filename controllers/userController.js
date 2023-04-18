@@ -136,7 +136,36 @@ class userController {
     //     }
     // }
 
-    
+    async getUserData(req, res) {
+        try{
+            const data = await userModel.find({nic : req.body.nic});
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async getUsers(req, res) {
+        try{
+            const data = await userModel.find();
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async getUserCount(req, res) {
+        try{
+            const data = await userModel.find();
+            console.log(data.length);
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
     
 }
 

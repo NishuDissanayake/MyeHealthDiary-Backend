@@ -31,6 +31,12 @@ const AdminSchema = new mongoose.Schema ({
     passwrd: {
         type: String,
         reuire: true
+    },
+
+    status: {
+        type: String,
+        reuire: true,
+        default: 'active'
     }
 });
 

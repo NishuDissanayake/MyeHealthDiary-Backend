@@ -21,6 +21,15 @@ class hospitalController {
 
     }
     
+    async getHospitals(req, res) {
+        try{
+            const data = await hospitalModel.find();
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = new hospitalController;

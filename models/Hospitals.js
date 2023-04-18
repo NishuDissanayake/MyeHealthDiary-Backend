@@ -26,6 +26,12 @@ const HospitalSchema = new mongoose.Schema ({
     added_by: {
         type: String,
         require: true
+    },
+
+    status: {
+        type: String,
+        reuire: true,
+        default: 'active'
     }
 });
 
