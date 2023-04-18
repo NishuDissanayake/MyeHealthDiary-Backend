@@ -20,6 +20,16 @@ class emtController {
         }
 
     }
+
+    async getEmts(req, res) {
+        try{
+            const data = await emtModel.find();
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
     
 }
 

@@ -20,6 +20,27 @@ class doctorController {
         }
 
     }
+
+    async getDoctors(req, res) {
+        try{
+            const data = await doctorModel.find();
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async getDoctorsbySpec(req, res) {
+        try{
+            const data = await doctorModel.find({specialization : req.body.specialization});
+            const datalength = data.length;
+            res.render(datalength);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
     
 }
 

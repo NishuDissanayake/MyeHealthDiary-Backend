@@ -77,6 +77,95 @@ class userController {
             res.status(500).send('Server Error');
         }
     }
+
+    async addCurrentMed(req, res) {
+        try {
+            const { nic, date_issued, med_name, type, dosage, meals, morning, noon, night, comments, state } = req.body;
+    
+            const meds = UserFactory.addcurrentMed(nic, date_issued, med_name, type, dosage, meals, morning, noon, night, comments, state);
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { $addToSet: { current_meds: meds } },
+                { upsert: true, new: true, maxTimeMS: 30000 }
+            );
+
+            res.status(200).json({ message: 'Vaccination added successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async addRecord(req, res) {
+        try {
+            const { nic, type, date, primary_diagnosis, doctor_in_charge, admitted_date, date_of_discharge, next_clinic_date } = req.body;
+    
+            const record = UserFactory.addRecords(nic, type, date, primary_diagnosis, doctor_in_charge, admitted_date, date_of_discharge, next_clinic_date);
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { $addToSet: { medical_reports: record } },
+                { upsert: true, new: true, maxTimeMS: 30000 }
+            );
+
+            res.status(200).json({ message: 'Medical record added successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    // async addTreatment(req, res) {
+    //     try {
+    //         const { nic, _id, date, treatment, added_by } = req.body;
+    
+    //         const treatments = UserFactory.addTreatment(nic, _id, date, treatment, added_by);
+
+    //         const result = await userModel.findOneAndUpdate(
+    //             { nic: nic },
+    //             { _id: nic },
+    //             { $addToSet: { medical_reports: record } },
+    //             { upsert: true, new: true, maxTimeMS: 30000 }
+    //         );
+
+    //         res.status(200).json({ message: 'Medical record added successfully!' });
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).send('Server Error');
+    //     }
+    // }
+
+    async getUserData(req, res) {
+        try{
+            const data = await userModel.find({nic : req.body.nic});
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async getUsers(req, res) {
+        try{
+            const data = await userModel.find();
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async getUserCount(req, res) {
+        try{
+            const data = await userModel.find();
+            console.log(data.length);
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
     
 }
 

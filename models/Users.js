@@ -328,7 +328,13 @@ const UserSchema = new mongoose.Schema({
                 type: String
             }
         }
-    ]
+    ],
+
+    status: {
+        type: String,
+        reuire: true,
+        default: 'active'
+    }
 });
 
 const Users = mongoose.model('user', UserSchema);
