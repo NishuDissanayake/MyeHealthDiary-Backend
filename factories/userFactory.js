@@ -70,6 +70,28 @@ class userFactory {
 
         return user;
     }
+
+    static addAllergy(nic, allergy_type, allergy_name) {
+
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof allergy_type !== 'string' || allergy_type.length === 0) {
+            throw new Error('Allergy type is required!');
+        }
+        if (typeof allergy_name !== 'string' || allergy_name.length === 0) {
+            throw new Error('Allergy name is required!');
+        }
+
+        const allergy = {
+            allergy_type: allergy_type,
+            allergy_name: allergy_name
+        }
+
+        return allergy;
+    }
 }
 
 module.exports = userFactory;

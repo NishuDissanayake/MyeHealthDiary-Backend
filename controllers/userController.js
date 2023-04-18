@@ -20,6 +20,47 @@ class userController {
         }
 
     }
+
+    async addAllergy1(req, res) {
+        try {
+            const { nic, allergy_type, allergy_name } = req.body;
+    
+            const allergy = {
+                allergy_type: allergy_type,
+                allergy_name: allergy_name
+            };
+    
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { $addToSet: { allergies: allergy } },
+                { upsert: true, new: true, maxTimeMS: 30000 }
+            );
+    
+            res.status(200).json({ message: 'Allergy added successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async addAllergy(req, res) {
+        try {
+            const { nic, allergy_type, allergy_name } = req.body;
+    
+            const allergy = UserFactory.addAllergy(nic, allergy_type, allergy_name);
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { $addToSet: { allergies: allergy } },
+                { upsert: true, new: true, maxTimeMS: 30000 }
+            );
+    
+            res.status(200).json({ message: 'Allergy added successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
     
 }
 
