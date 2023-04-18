@@ -4,6 +4,6 @@ const adminController = require('./../controllers/adminController');
 const router = express.Router();
 
 router.post('/api/addadmin', adminController.addAdmin.bind(adminController));
-// router.post('/api/addGame', adminController.addGame.bind(gameController));
+router.put('/api/putadminorg', adminController.putAdminOrg.bind(adminController));
 
 module.exports = router;

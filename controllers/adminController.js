@@ -21,7 +21,26 @@ class adminController {
         }
 
     }
-    
+
+    async putAdminOrg(req, res) {
+        try {
+
+            const { _id, n_organization } = req.body;
+
+            const result = await adminModel.findOneAndUpdate(
+                { _id: _id },
+                { organization: n_organization },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
 }
 
 module.exports = new adminController;
