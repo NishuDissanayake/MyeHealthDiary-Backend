@@ -246,6 +246,36 @@ class userFactory {
         return report;
     }
 
+    static addTreatment(nic, _id, date, treatment, added_by) {
+
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof _id !== 'string' || _id.length === 0) {
+            throw new Error('ID is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof treatment !== 'string' || treatment.length === 0) {
+            throw new Error('Treatment is required!');
+        }
+        if (typeof added_by !== 'string' || added_by.length === 0) {
+            throw new Error('Added person is required!');
+        }
+
+        const treatments = {
+            date: date,
+            treatment: treatment,
+            added_by: added_by
+        }
+
+        return treatments;
+    }
+
 }
 
 module.exports = userFactory;
+

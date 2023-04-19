@@ -116,25 +116,35 @@ class userController {
         }
     }
 
-    // async addTreatment(req, res) {
-    //     try {
-    //         const { nic, _id, date, treatment, added_by } = req.body;
+    async addTreatment(req, res) {
+        try {
+            const { nic, _id, date, treatment, added_by } = req.body;
     
-    //         const treatments = UserFactory.addTreatment(nic, _id, date, treatment, added_by);
+            const user = await userModel.findOne({nic: nic});
 
-    //         const result = await userModel.findOneAndUpdate(
-    //             { nic: nic },
-    //             { _id: nic },
-    //             { $addToSet: { medical_reports: record } },
-    //             { upsert: true, new: true, maxTimeMS: 30000 }
-    //         );
+            if (!user) {
+                console.log("User not found!");
+                return res.status(404).json({ message: 'User not found' });
+            }
 
-    //         res.status(200).json({ message: 'Medical record added successfully!' });
-    //     } catch (error) {
-    //         console.error(error);
-    //         res.status(500).send('Server Error');
-    //     }
-    // }
+            const medicalRecord = user.medical_reports.id(_id);
+
+            if (!medicalRecord) {
+                console.log("Medical record not found!");
+                return res.status(404).json({ message: 'Medical record not found' });
+            }
+
+            const treatments = UserFactory.addTreatment(nic, _id, date, treatment, added_by);
+
+            medicalRecord.treatments.push(treatments);
+            await user.save();
+
+            res.status(200).json({ message: 'Treatment added successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
 
     async getUserData(req, res) {
         try{
@@ -166,6 +176,58 @@ class userController {
             res.status(400).json({ message: error.message });
         }
     }
+
+    async getTreatments(req, res) {
+        try {
+          const { nic, _id } = req.body;
+
+          const user = await userModel.findOne({ nic });
+          
+          if (!user) {
+            console.log("User not found!");
+            return res.status(404).json({ message: 'User not found' });
+          }
+      
+          const medicalRecord = user.medical_reports.id(_id);
+      
+          if (!medicalRecord) {
+            console.log("Medical record not found!");
+            return res.status(404).json({ message: 'Medical record not found' });
+          }
+      
+          const treatments = medicalRecord.treatments;
+          res.status(200).json({ treatments });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Server Error');
+        }
+      }
+
+      async getMedicalRecords(req, res) {
+        try {
+          const { nic, _id } = req.body;
+
+          const user = await userModel.findOne({ nic });
+          
+          if (!user) {
+            console.log("User not found!");
+            return res.status(404).json({ message: 'User not found' });
+          }
+      
+          const medicalRecord = user.medical_reports.id(_id);
+      
+          if (!medicalRecord) {
+            console.log("Medical record not found!");
+            return res.status(404).json({ message: 'Medical record not found' });
+          }
+
+          res.status(200).json({ medicalRecord });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Server Error');
+        }
+      }
+
     
 }
 
