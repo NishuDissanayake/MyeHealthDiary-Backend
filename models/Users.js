@@ -126,11 +126,6 @@ const UserSchema = new mongoose.Schema({
 
     medical_reports: [
         {
-            report_id: {
-                type: String,
-                unique: true
-            },
-
             type: {
                 type: String
             },
