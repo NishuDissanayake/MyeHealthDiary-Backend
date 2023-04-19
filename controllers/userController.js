@@ -589,8 +589,159 @@ class userController {
         }
     }
 
-    
+    async updateUserAddress(req, res) {
+        try {
 
+            const { nic, n_address} = req.body;
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { address: n_address },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your adress is updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateUserContact(req, res) {
+        try {
+
+            const { nic, n_phone} = req.body;
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { phone_number: n_phone },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your phone number is updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateEmContactName(req, res) {
+        try {
+
+            const { nic, n_emergency_contact_person} = req.body;
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { emergency_contact_person: n_emergency_contact_person },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your emergency contact person is updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateEmContact(req, res) {
+        try {
+
+            const { nic, n_emergency_contact} = req.body;
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { emergency_contact: n_emergency_contact },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your emergency contact person phone number is updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateBloodGroup(req, res) {
+        try {
+
+            const { nic, n_blood_group } = req.body;
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { blood_group: n_blood_group },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your blood group is updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateChronicDiseases(req, res) {
+        try {
+
+            const { nic, n_chronic_disease } = req.body;
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { chronic_disease: n_chronic_disease },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your chronic diseases are updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateHealthInsurance(req, res) {
+        try {
+
+            const { nic, n_health_insurance_provider } = req.body;
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { health_insurance_provider: n_health_insurance_provider },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your health insurance provider is updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async deleteUser(req, res) {
+        try {
+
+            const { nic } = req.body;
+
+            const status = "Deactivated";
+
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic },
+                { status: status },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'Your account is deactivated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
 
 }
 

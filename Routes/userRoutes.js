@@ -16,6 +16,14 @@ router.put('/api/add-temperature', userController.addTemperature.bind(userContro
 router.put('/api/add-blood-pressure', userController.addBPressure.bind(userController));
 router.put('/api/add-comment', userController.addComments.bind(userController));
 router.put('/api/add-report', userController.addReports.bind(userController));
+router.put('/api/update-address', userController.updateUserAddress.bind(userController));
+router.put('/api/update-contact', userController.updateUserContact.bind(userController));
+router.put('/api/update-em-contact-name', userController.updateEmContactName.bind(userController));
+router.put('/api/update-em-contact', userController.updateEmContact.bind(userController));
+router.put('/api/update-health-insurance', userController.updateHealthInsurance.bind(userController));
+router.put('/api/update-blood-group', userController.updateBloodGroup.bind(userController));
+router.put('/api/update-chronic-diseases', userController.updateChronicDiseases.bind(userController));
+router.put('/api/delete-user', userController.deleteUser.bind(userController));
 router.get('/api/get-user-data', userController.getUserData.bind(userController));
 router.get('/api/get-user-count', userController.getUserCount.bind(userController));
 router.get('/api/get-users', userController.getUsers.bind(userController));
