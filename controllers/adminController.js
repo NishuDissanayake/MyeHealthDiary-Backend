@@ -101,7 +101,9 @@ class adminController {
     async deactivateAdminAccount(req, res) {
         try {
 
-            const { _id, status} = req.body;
+            const { _id } = req.body;
+
+            const status = "deactivated";
 
             const result = await adminModel.findOneAndUpdate(
                 { _id: _id },
@@ -114,6 +116,16 @@ class adminController {
         } catch (error) {
             console.error(error);
             res.status(500).send('Server Error');
+        }
+    }
+
+    async getAdminByEmail(req, res) {
+        try{
+            const data = await adminModel.find({email : req.body.email});
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
         }
     }
 
