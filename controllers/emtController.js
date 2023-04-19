@@ -30,6 +30,114 @@ class emtController {
             res.status(400).json({ message: error.message });
         }
     }
+
+    async getEmtByEmail(req, res) {
+        try{
+            const data = await emtModel.find({email : req.body.email});
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async updateEmtHospital(req, res) {
+        try {
+
+            const { _id, n_hospital } = req.body;
+
+            const result = await emtModel.findOneAndUpdate(
+                { _id: _id },
+                { hospital: n_hospital },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'EMT member hospital updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateEmtDesignation(req, res) {
+        try {
+
+            const { _id, n_designation } = req.body;
+
+            const result = await emtModel.findOneAndUpdate(
+                { _id: _id },
+                { designation: n_designation },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'EMT member designation updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateEmtPhone(req, res) {
+        try {
+
+            const { _id, n_phone } = req.body;
+
+            const result = await emtModel.findOneAndUpdate(
+                { _id: _id },
+                { phone_number: n_phone },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'EMT member phone number updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateEmtPassword(req, res) {
+        try {
+
+            const { _id, n_pass } = req.body;
+
+            const result = await emtModel.findOneAndUpdate(
+                { _id: _id },
+                { passwrd: n_pass },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'EMT member password updated successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async deleteEmt(req, res) {
+        try {
+
+            const { _id } = req.body;
+
+            const status = "deactivated";
+
+            const result = await emtModel.findOneAndUpdate(
+                { _id: _id },
+                { status: status },
+                { maxTimeMS: 30000 }
+            ) 
+
+            res.status(200).json({ message: 'EMT member deleted successfully!' });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
     
 }
 
