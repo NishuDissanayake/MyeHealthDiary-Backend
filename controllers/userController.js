@@ -97,6 +97,101 @@ class userController {
         }
     }
 
+    async updateMedState(req, res) {
+        try {
+            const { nic, _id } = req.body;
+    
+            const state = "Inactive";
+    
+            const user = await userModel.findOne({ nic });
+    
+            if (!user) {
+                console.log("User not found!");
+                return res.status(404).json({ message: 'User not found' });
+            }
+    
+            const current_med = user.current_meds.id(_id);
+    
+            if (!current_med) {
+                console.log("Medicine not found!");
+                return res.status(404).json({ message: 'Medicine not found' });
+            }
+    
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic, "current_meds._id": _id },
+                { $set: { "current_meds.$.state": state } },
+                { new: true }
+            );
+    
+            res.status(200).json({ message: 'State updated successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateClinicDate(req, res) {
+        try {
+            const { nic, _id, next_clinic_date } = req.body;
+    
+            const user = await userModel.findOne({ nic });
+    
+            if (!user) {
+                console.log("User not found!");
+                return res.status(404).json({ message: 'User not found' });
+            }
+    
+            const medicalRecord = user.medical_reports.id(_id);
+    
+            if (!medicalRecord) {
+                console.log("Medical report not found!");
+                return res.status(404).json({ message: 'Medical report not found' });
+            }
+    
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic, "medical_reports._id": _id },
+                { $set: { "medical_reports.$.next_clinic_date": next_clinic_date } },
+                { new: true }
+            );
+    
+            res.status(200).json({ message: 'Next clinic date updated successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
+    async updateDischargeDate(req, res) {
+        try {
+            const { nic, _id, discharge_date } = req.body;
+    
+            const user = await userModel.findOne({ nic });
+    
+            if (!user) {
+                console.log("User not found!");
+                return res.status(404).json({ message: 'User not found' });
+            }
+    
+            const medicalRecord = user.medical_reports.id(_id);
+    
+            if (!medicalRecord) {
+                console.log("Medical report not found!");
+                return res.status(404).json({ message: 'Medical report not found' });
+            }
+    
+            const result = await userModel.findOneAndUpdate(
+                { nic: nic, "medical_reports._id": _id },
+                { $set: { "medical_reports.$.date_of_discharge": discharge_date } },
+                { new: true }
+            );
+    
+            res.status(200).json({ message: 'Date of discharge updated successfully!' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
     async addRecord(req, res) {
         try {
             const { nic, type, date, primary_diagnosis, doctor_in_charge, admitted_date, date_of_discharge, next_clinic_date } = req.body;
