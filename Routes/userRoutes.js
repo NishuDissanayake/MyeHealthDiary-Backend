@@ -24,6 +24,9 @@ router.put('/api/update-health-insurance', userController.updateHealthInsurance.
 router.put('/api/update-blood-group', userController.updateBloodGroup.bind(userController));
 router.put('/api/update-chronic-diseases', userController.updateChronicDiseases.bind(userController));
 router.put('/api/delete-user', userController.deleteUser.bind(userController));
+router.put('/api/update-med-state', userController.updateMedState.bind(userController));
+router.put('/api/update-clinic-date', userController.updateClinicDate.bind(userController));
+router.put('/api/update-discharge-date', userController.updateDischargeDate.bind(userController));
 router.get('/api/get-user-data', userController.getUserData.bind(userController));
 router.get('/api/get-user-count', userController.getUserCount.bind(userController));
 router.get('/api/get-users', userController.getUsers.bind(userController));
