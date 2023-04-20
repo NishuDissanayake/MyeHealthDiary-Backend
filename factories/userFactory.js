@@ -275,6 +275,192 @@ class userFactory {
         return treatments;
     }
 
+    static addBandBFunc(nic, _id, date, bladder_bowel_function, added_by) {
+        
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof _id !== 'string' || _id.length === 0) {
+            throw new Error('ID is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof bladder_bowel_function !== 'string' || bladder_bowel_function.length === 0) {
+            throw new Error('Bladder and bowel functions are required!');
+        }
+        if (typeof added_by !== 'string' || added_by.length === 0) {
+            throw new Error('Added person is required!');
+        }
+
+        const bandb = {
+            date: date,
+            bladder_bowel_function: bladder_bowel_function,
+            added_by: added_by
+        }
+
+        return bandb;
+    }
+
+    static addLabTest(nic, _id, date, test_name, test_comments, added_by) {
+        
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof _id !== 'string' || _id.length === 0) {
+            throw new Error('ID is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof test_name !== 'string' || test_name.length === 0) {
+            throw new Error('Test name is required!');
+        }
+        if (typeof test_comments !== 'string' || test_comments.length === 0) {
+            throw new Error('Test comments are required!');
+        }
+        if (typeof added_by !== 'string' || added_by.length === 0) {
+            throw new Error('Added person is required!');
+        }
+
+        const labs = {
+            date: date,
+            test_name: test_comments,
+            test_comments: test_comments,
+            added_by: added_by
+        }
+
+        return labs;
+    }
+
+    static addTemperatures(nic, _id, date, temperature, added_by) {
+        
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof _id !== 'string' || _id.length === 0) {
+            throw new Error('ID is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof temperature !== 'string' || temperature.length === 0) {
+            throw new Error('Temperature is required!');
+        }
+        if (typeof added_by !== 'string' || added_by.length === 0) {
+            throw new Error('Added person is required!');
+        }
+
+        const temp = {
+            date: date,
+            temperature: temperature,
+            added_by: added_by
+        }
+
+        return temp;
+    }
+
+    static addBPressures(nic, _id, date, blood_pressure, added_by) {
+        
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof _id !== 'string' || _id.length === 0) {
+            throw new Error('ID is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof blood_pressure !== 'string' || blood_pressure.length === 0) {
+            throw new Error('Blood pressure is required!');
+        }
+        if (typeof added_by !== 'string' || added_by.length === 0) {
+            throw new Error('Added person is required!');
+        }
+
+        const bp = {
+            date: date,
+            blood_pressure: blood_pressure,
+            added_by: added_by
+        }
+
+        return bp;
+    }
+
+    static addComments(nic, _id, date, comment, added_by) {
+        
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof _id !== 'string' || _id.length === 0) {
+            throw new Error('ID is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof comment !== 'string' || comment.length === 0) {
+            throw new Error('Comment is required!');
+        }
+        if (typeof added_by !== 'string' || added_by.length === 0) {
+            throw new Error('Added person is required!');
+        }
+
+        const comments = {
+            date: date,
+            comment: comment,
+            added_by: added_by
+        }
+
+        return comments;
+    }
+
+    static addReports(nic, _id, date, report_name, report_type, report_link, added_by) {
+        
+        // Perform data validation checks
+
+        if (typeof nic !== 'string' || nic.length === 0) {
+            throw new Error('NIC is required!');
+        }
+        if (typeof _id !== 'string' || _id.length === 0) {
+            throw new Error('ID is required!');
+        }
+        if (date.length === 0) {
+            throw new Error('Date is required!');
+        }
+        if (typeof report_name !== 'string' || report_name.length === 0) {
+            throw new Error('Report name is required!');
+        }
+        if (typeof report_type !== 'string' || report_type.length === 0) {
+            throw new Error('Report type is required!');
+        }
+        if (typeof report_link !== 'string' || report_link.length === 0) {
+            throw new Error('Report link is required!');
+        }
+        if (typeof added_by !== 'string' || added_by.length === 0) {
+            throw new Error('Added person is required!');
+        }
+
+        const report = {
+            date: date,
+            report_name: report_name,
+            report_type: report_type,
+            report_link: report_link,
+            added_by: added_by
+        }
+
+        return report;
+    }
+
 }
 
 module.exports = userFactory;

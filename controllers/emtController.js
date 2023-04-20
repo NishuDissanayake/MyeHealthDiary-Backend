@@ -52,7 +52,7 @@ class emtController {
                 { maxTimeMS: 30000 }
             ) 
 
-            res.status(200).json({ message: 'EMT member hospital updated successfully!' });
+            res.status(200).json({ message: 'Hospital updated successfully!' });
 
         } catch (error) {
             console.error(error);
@@ -71,7 +71,7 @@ class emtController {
                 { maxTimeMS: 30000 }
             ) 
 
-            res.status(200).json({ message: 'EMT member designation updated successfully!' });
+            res.status(200).json({ message: 'Designation updated successfully!' });
 
         } catch (error) {
             console.error(error);
@@ -90,7 +90,7 @@ class emtController {
                 { maxTimeMS: 30000 }
             ) 
 
-            res.status(200).json({ message: 'EMT member phone number updated successfully!' });
+            res.status(200).json({ message: 'Phone number updated successfully!' });
 
         } catch (error) {
             console.error(error);
@@ -109,7 +109,7 @@ class emtController {
                 { maxTimeMS: 30000 }
             ) 
 
-            res.status(200).json({ message: 'EMT member password updated successfully!' });
+            res.status(200).json({ message: 'Password updated successfully!' });
 
         } catch (error) {
             console.error(error);
@@ -130,7 +130,7 @@ class emtController {
                 { maxTimeMS: 30000 }
             ) 
 
-            res.status(200).json({ message: 'EMT member deleted successfully!' });
+            res.status(200).json({ message: 'Account deleted successfully!' });
 
         } catch (error) {
             console.error(error);
