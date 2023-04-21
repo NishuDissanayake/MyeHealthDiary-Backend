@@ -2,12 +2,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
+const cors = require('cors');
 
 const adminRoutes = require('./Routes/adminRoutes');
 const hospitalRoutes = require('./Routes/hospitalRoutes');
 const doctorRoutes = require('./Routes/doctorRoutes');
 const emtRoutes = require('./Routes/emtRoutes');
 const userRoutes = require('./Routes/userRoutes');
+
+app.use(
+    cors({
+      origin: ["http://localhost:3000","http://srcreativespace.com"]
+    })
+  );
 
 require("dotenv").config();
 
