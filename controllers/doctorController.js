@@ -7,7 +7,7 @@ class doctorController {
 
         try {
 
-            const { doctor_id, doctor_name, hospital, specialization, qualifications, phone_number, email, passwrd, added_by } = req.body;
+            const { doctor_id, doctor_name, hospital, specialization, qualifications, phone_number, email, passwrd, added_by } = req.query;
 
             const doctor = DoctorFactory.addDoctor(doctor_id, doctor_name, hospital, specialization, qualifications, phone_number, email, passwrd, added_by);
 
@@ -33,7 +33,7 @@ class doctorController {
 
     async getDoctorByEmail(req, res) {
         try{
-            const data = await doctorModel.find({email: req.body.email});
+            const data = await doctorModel.find({email: req.query.email});
             res.status(200).json(data);
         }
         catch(error){
@@ -44,7 +44,18 @@ class doctorController {
     async getDoctorsbySpec(req, res) {
         try{
             const status = "active";
-            const data = await doctorModel.find({specialization : req.body.specialization, status: status});
+            const data = await doctorModel.find({specialization : req.query.specialization, status: status});
+            res.status(200).json(data);
+        }
+        catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+    
+    async getDoctorsbyHospital(req, res) {
+        try{
+            const status = "active";
+            const data = await doctorModel.find({hospital : req.query.hospital, status: status});
             res.status(200).json(data);
         }
         catch(error){
@@ -55,7 +66,7 @@ class doctorController {
     async updateDoctorHospital(req, res) {
         try {
 
-            const { _id, n_hospital } = req.body;
+            const { _id, n_hospital } = req.query;
 
             const result = await doctorModel.findOneAndUpdate(
                 { _id: _id },
@@ -74,7 +85,7 @@ class doctorController {
     async updateDoctorQualifications(req, res) {
         try {
 
-            const { _id, n_qualifications } = req.body;
+            const { _id, n_qualifications } = req.query;
 
             const result = await doctorModel.findOneAndUpdate(
                 { _id: _id },
@@ -93,7 +104,7 @@ class doctorController {
     async updateDoctorContact(req, res) {
         try {
 
-            const { _id, n_phone } = req.body;
+            const { _id, n_phone } = req.query;
 
             const result = await doctorModel.findOneAndUpdate(
                 { _id: _id },
@@ -112,7 +123,7 @@ class doctorController {
     async updateDoctorPassword(req, res) {
         try {
 
-            const { _id, n_pass } = req.body;
+            const { _id, n_pass } = req.query;
 
             const result = await doctorModel.findOneAndUpdate(
                 { _id: _id },
@@ -131,7 +142,7 @@ class doctorController {
     async deleteDoctor(req, res) {
         try {
 
-            const { _id } = req.body;
+            const { _id } = req.query;
 
             const status = "Deactivated";
 

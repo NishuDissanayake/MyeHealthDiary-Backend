@@ -7,7 +7,7 @@ class hospitalController {
 
         try {
 
-            const { hospital_regno, hospital_name, address, phone_number, added_by } = req.body;
+            const { hospital_regno, hospital_name, address, phone_number, added_by } = req.query;
 
             const hospital = HospitalFactory.addHospital(hospital_regno, hospital_name, address, phone_number, added_by);
 
@@ -34,7 +34,7 @@ class hospitalController {
     async updateHospitalAddress(req, res) {
         try {
 
-            const { reg_no, n_address } = req.body;
+            const { reg_no, n_address } = req.query;
 
             const result = await hospitalModel.findOneAndUpdate(
                 { hospital_regno: reg_no },
@@ -53,7 +53,7 @@ class hospitalController {
     async updateHospitalContact(req, res) {
         try {
 
-            const { reg_no, n_phone } = req.body;
+            const { reg_no, n_phone } = req.query;
 
             const result = await hospitalModel.findOneAndUpdate(
                 { hospital_regno: reg_no },
@@ -72,7 +72,7 @@ class hospitalController {
     async deleteHospital(req, res) {
         try {
 
-            const { reg_no } = req.body;
+            const { reg_no } = req.query;
 
             const status = "defected";
 

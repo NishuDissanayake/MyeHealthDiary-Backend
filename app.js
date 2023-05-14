@@ -12,7 +12,7 @@ const userRoutes = require('./Routes/userRoutes');
 
 app.use(
     cors({
-      origin: ["http://localhost:3000","http://srcreativespace.com"]
+      origin: ["http://localhost:3000","https://srcreativespace.com"]
     })
   );
 

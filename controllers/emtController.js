@@ -7,7 +7,7 @@ class emtController {
 
         try {
 
-            const { emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by } = req.body;
+            const { emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by } = req.query;
 
             const emt = EmtFactory.addEmt(emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by);
 
@@ -33,7 +33,7 @@ class emtController {
 
     async getEmtByEmail(req, res) {
         try{
-            const data = await emtModel.find({email : req.body.email});
+            const data = await emtModel.find({email : req.query.email});
             res.status(200).json(data);
         }
         catch(error){
@@ -44,7 +44,7 @@ class emtController {
     async updateEmtHospital(req, res) {
         try {
 
-            const { _id, n_hospital } = req.body;
+            const { _id, n_hospital } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
                 { _id: _id },
@@ -63,7 +63,7 @@ class emtController {
     async updateEmtDesignation(req, res) {
         try {
 
-            const { _id, n_designation } = req.body;
+            const { _id, n_designation } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
                 { _id: _id },
@@ -82,7 +82,7 @@ class emtController {
     async updateEmtPhone(req, res) {
         try {
 
-            const { _id, n_phone } = req.body;
+            const { _id, n_phone } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
                 { _id: _id },
@@ -101,7 +101,7 @@ class emtController {
     async updateEmtPassword(req, res) {
         try {
 
-            const { _id, n_pass } = req.body;
+            const { _id, n_pass } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
                 { _id: _id },
@@ -120,7 +120,7 @@ class emtController {
     async deleteEmt(req, res) {
         try {
 
-            const { _id } = req.body;
+            const { _id } = req.query;
 
             const status = "deactivated";
 
