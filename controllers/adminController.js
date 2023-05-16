@@ -1,5 +1,6 @@
 const adminModel = require('./../models/Admins');
 const AdminFactory = require('./../factories/adminFactory');
+const bcrypt = require('bcryptjs');
 
 class adminController {
 
@@ -8,9 +9,9 @@ class adminController {
         try {
 
             const { admin_name, organization, designation, phone_number, em, pwrd } = req.query;
-
+            const passwrd = await bcrypt.hash(pwrd, 10);
             // use adminFactory to create new instance of the Admin model
-            const admin = AdminFactory.addAdmin(admin_name, organization, designation, phone_number, em, pwrd);
+            const admin = AdminFactory.addAdmin(admin_name, organization, designation, phone_number, em, passwrd);
 
             await admin.save();
 

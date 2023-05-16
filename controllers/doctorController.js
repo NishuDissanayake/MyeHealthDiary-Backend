@@ -1,5 +1,6 @@
 const doctorModel = require('./../models/Doctors');
 const DoctorFactory = require('./../factories/doctorFactory');
+const bcrypt = require('bcryptjs');
 
 class doctorController {
 
@@ -7,8 +8,8 @@ class doctorController {
 
         try {
 
-            const { doctor_id, doctor_name, hospital, specialization, qualifications, phone_number, email, passwrd, added_by } = req.query;
-
+            const { doctor_id, doctor_name, hospital, specialization, qualifications, phone_number, email, pass, added_by } = req.query;
+            const passwrd = await bcrypt.hash(pass, 10);
             const doctor = DoctorFactory.addDoctor(doctor_id, doctor_name, hospital, specialization, qualifications, phone_number, email, passwrd, added_by);
 
             await doctor.save();
@@ -124,10 +125,10 @@ class doctorController {
         try {
 
             const { _id, n_pass } = req.query;
-
+            const hashedPassword = await bcrypt.hash(n_[pass], 10);
             const result = await doctorModel.findOneAndUpdate(
                 { _id: _id },
-                { passwrd: n_pass },
+                { passwrd: hashedPassword },
                 { maxTimeMS: 30000 }
             ) 
 

@@ -1,7 +1,7 @@
 const userModel = require('./../models/Users');
 
 class userFactory {
-    static addUser(nic, first_name, last_name, birth_day, address, phone_number, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_diseases, email, passwrd) {
+    static addUser(nic, first_name, last_name, birth_day, address, phone_number, gender, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_disease, email, passwrd) {
 
         // Perform data validation checks
         if (typeof nic !== 'string' || nic.length === 0) {
@@ -26,6 +26,9 @@ class userFactory {
         if (typeof num !== 'number') {
             throw new Error('Phone number should be a number!');
         }
+        if (typeof gender !== 'string' || gender.length === 0) {
+            throw new Error('A gender is required!');
+        }
         if (typeof emergency_contact_person !== 'string' || emergency_contact_person.length === 0) {
             throw new Error('An emergency contact person is required!');
         }
@@ -42,8 +45,8 @@ class userFactory {
         if (typeof blood_group !== 'string' || blood_group.length === 0) {
             throw new Error('Blood group is required!');
         }
-        if (typeof chronic_diseases !== 'string' || chronic_diseases.length === 0) {
-            throw new Error('Selecting disease conditions is required!');
+        if (typeof chronic_disease !== 'string' || chronic_disease.length === 0) {
+            throw new Error('Adding disease conditions is required!');
         }
         if (typeof email !== 'string' || email.length === 0) {
             throw new Error('Email is required!');
@@ -59,11 +62,12 @@ class userFactory {
             birth_day: birth_day,
             address: address,
             phone_number: phone_number,
+            gender: gender,
             emergency_contact_person: emergency_contact_person,
             emergency_contact: emergency_contact,
             health_insurance_provider: health_insurance_provider,
             blood_group: blood_group,
-            chronic_diseases: chronic_diseases,
+            chronic_disease: chronic_disease,
             email: email,
             passwrd: passwrd
         })

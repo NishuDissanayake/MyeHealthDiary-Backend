@@ -1,5 +1,6 @@
 const emtModel = require('./../models/EMTs');
 const EmtFactory = require('./../factories/emtFactory');
+const bcrypt = require('bcryptjs');
 
 class emtController {
 
@@ -7,8 +8,8 @@ class emtController {
 
         try {
 
-            const { emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by } = req.query;
-
+            const { emt_id, emt_name, hospital, designation, phone_number, email, pass, added_by } = req.query;
+            const passwrd = await bcrypt.hash(pass, 10);
             const emt = EmtFactory.addEmt(emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by);
 
             await emt.save();

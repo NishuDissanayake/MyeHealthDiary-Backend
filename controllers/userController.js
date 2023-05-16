@@ -1,5 +1,6 @@
 const userModel = require('./../models/Users');
 const UserFactory = require('./../factories/userFactory');
+const bcrypt = require('bcryptjs');
 
 class userController {
 
@@ -7,16 +8,17 @@ class userController {
 
         try {
 
-            const { nic, first_name, last_name, birth_day, address, phone_number, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_diseases, email, passwrd } = req.query;
-
-            const user = UserFactory.addUser(nic, first_name, last_name, birth_day, address, phone_number, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_diseases, email, passwrd);
+            const { nic, first_name, last_name, birth_day, address, phone_number, gender, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_disease, email, pass } = req.query;
+            const passwrd = await bcrypt.hash(pass, 10);
+            // use userFactory to create new instance of the Use model
+            const user = UserFactory.addUser(nic, first_name, last_name, birth_day, address, phone_number, gender, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_disease, email, passwrd);
 
             await user.save();
 
-            res.status(200).send('Registration successful!');
+            res.status(200).send('User registration successfull!');
         } catch (error) {
             console.error(error);
-            res.status(500).send('Server Error');
+            res.status(500).send(error);
         }
 
     }
@@ -807,7 +809,7 @@ class userController {
     async deleteUser(req, res) {
         try {
             const { nic, n_pass } = req.query;
-
+            const hashedPassword = await bcrypt.hash(n_pass, 10);
             const userData = await userModel.findOne({ nic });
 
             if (!userData) {
@@ -816,8 +818,8 @@ class userController {
             } else {
                 const pass = userData.passwrd;
 
-                if (n_pass !== pass) {
-                    console.log(n_pass);
+                if (hashedPassword !== pass) {
+                    console.log(hashedPassword);
                     console.log(pass);
                     console.log("Password Mismatch!");
                     return res.status(401).json({ message: 'Password Mismatch!' });

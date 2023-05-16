@@ -32,6 +32,11 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
 
+    gender: {
+        type: String,
+        required: true
+    },
+
     emergency_contact_person: {
         type: String,
         require: true

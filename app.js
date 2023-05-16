@@ -9,6 +9,7 @@ const hospitalRoutes = require('./Routes/hospitalRoutes');
 const doctorRoutes = require('./Routes/doctorRoutes');
 const emtRoutes = require('./Routes/emtRoutes');
 const userRoutes = require('./Routes/userRoutes');
+const loginRoutes = require('./Routes/loginRoutes');
 
 app.use(
     cors({
@@ -32,7 +33,9 @@ app.use(hospitalRoutes);
 app.use(doctorRoutes);
 app.use(emtRoutes);
 app.use(userRoutes);
+app.use(loginRoutes);
 
 app.listen(process.env.PORT || 5000, ()=> {
     console.log('Server running on port 5000');
 });
+
