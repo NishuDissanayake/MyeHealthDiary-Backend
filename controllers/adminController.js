@@ -1,5 +1,6 @@
 const adminModel = require('./../models/Admins');
 const AdminFactory = require('./../factories/adminFactory');
+const bcrypt = require('bcryptjs');
 
 class adminController {
 
@@ -7,10 +8,10 @@ class adminController {
 
         try {
 
-            const { admin_name, organization, designation, phone_number, em, pwrd } = req.body;
-
+            const { admin_name, organization, designation, phone_number, em, pwrd } = req.query;
+            const passwrd = await bcrypt.hash(pwrd, 10);
             // use adminFactory to create new instance of the Admin model
-            const admin = AdminFactory.addAdmin(admin_name, organization, designation, phone_number, em, pwrd);
+            const admin = AdminFactory.addAdmin(admin_name, organization, designation, phone_number, em, passwrd);
 
             await admin.save();
 
@@ -25,10 +26,10 @@ class adminController {
     async updateAdminOrg(req, res) {
         try {
 
-            const { _id, n_organization } = req.body;
+            const { email, n_organization } = req.query;
 
             const result = await adminModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { organization: n_organization },
                 { maxTimeMS: 30000 }
             ) 
@@ -44,10 +45,10 @@ class adminController {
     async updateAdminPosition(req, res) {
         try {
 
-            const { _id, n_designation } = req.body;
+            const { email, n_designation } = req.query;
 
             const result = await adminModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { designation: n_designation },
                 { maxTimeMS: 30000 }
             ) 
@@ -63,10 +64,10 @@ class adminController {
     async updateAdminPhone(req, res) {
         try {
 
-            const { _id, n_phone } = req.body;
+            const { email, n_phone } = req.query;
 
             const result = await adminModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { phone_number: n_phone },
                 { maxTimeMS: 30000 }
             ) 
@@ -82,10 +83,10 @@ class adminController {
     async updateAdminPassword(req, res) {
         try {
 
-            const { _id, n_pass} = req.body;
+            const { email, n_pass} = req.query;
 
             const result = await adminModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { passwrd: n_pass },
                 { maxTimeMS: 30000 }
             ) 
@@ -101,12 +102,12 @@ class adminController {
     async deactivateAdminAccount(req, res) {
         try {
 
-            const { _id } = req.body;
+            const { email } = req.query;
 
             const status = "deactivated";
 
             const result = await adminModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { status: status },
                 { maxTimeMS: 30000 }
             ) 
@@ -121,7 +122,7 @@ class adminController {
 
     async getAdminByEmail(req, res) {
         try{
-            const data = await adminModel.find({email : req.body.email});
+            const data = await adminModel.find({email : req.query.email});
             res.status(200).json(data);
         }
         catch(error){

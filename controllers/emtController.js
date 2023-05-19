@@ -1,5 +1,6 @@
 const emtModel = require('./../models/EMTs');
 const EmtFactory = require('./../factories/emtFactory');
+const bcrypt = require('bcryptjs');
 
 class emtController {
 
@@ -7,8 +8,8 @@ class emtController {
 
         try {
 
-            const { emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by } = req.body;
-
+            const { emt_id, emt_name, hospital, designation, phone_number, email, pass, added_by } = req.query;
+            const passwrd = await bcrypt.hash(pass, 10);
             const emt = EmtFactory.addEmt(emt_id, emt_name, hospital, designation, phone_number, email, passwrd, added_by);
 
             await emt.save();
@@ -33,7 +34,7 @@ class emtController {
 
     async getEmtByEmail(req, res) {
         try{
-            const data = await emtModel.find({email : req.body.email});
+            const data = await emtModel.find({email : req.query.email});
             res.status(200).json(data);
         }
         catch(error){
@@ -44,10 +45,10 @@ class emtController {
     async updateEmtHospital(req, res) {
         try {
 
-            const { _id, n_hospital } = req.body;
+            const { email, n_hospital } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { hospital: n_hospital },
                 { maxTimeMS: 30000 }
             ) 
@@ -63,10 +64,10 @@ class emtController {
     async updateEmtDesignation(req, res) {
         try {
 
-            const { _id, n_designation } = req.body;
+            const { email, n_designation } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { designation: n_designation },
                 { maxTimeMS: 30000 }
             ) 
@@ -82,10 +83,10 @@ class emtController {
     async updateEmtPhone(req, res) {
         try {
 
-            const { _id, n_phone } = req.body;
+            const { email, n_phone } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { phone_number: n_phone },
                 { maxTimeMS: 30000 }
             ) 
@@ -101,10 +102,10 @@ class emtController {
     async updateEmtPassword(req, res) {
         try {
 
-            const { _id, n_pass } = req.body;
+            const { email, n_pass } = req.query;
 
             const result = await emtModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { passwrd: n_pass },
                 { maxTimeMS: 30000 }
             ) 
@@ -120,12 +121,12 @@ class emtController {
     async deleteEmt(req, res) {
         try {
 
-            const { _id } = req.body;
+            const { email } = req.query;
 
             const status = "deactivated";
 
             const result = await emtModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { status: status },
                 { maxTimeMS: 30000 }
             ) 

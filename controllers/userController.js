@@ -1,5 +1,6 @@
 const userModel = require('./../models/Users');
 const UserFactory = require('./../factories/userFactory');
+const bcrypt = require('bcryptjs');
 
 class userController {
 
@@ -7,23 +8,24 @@ class userController {
 
         try {
 
-            const { nic, first_name, last_name, birth_day, address, phone_number, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_diseases, email, passwrd } = req.body;
-
-            const user = UserFactory.addUser(nic, first_name, last_name, birth_day, address, phone_number, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_diseases, email, passwrd);
+            const { nic, first_name, last_name, birth_day, address, phone_number, gender, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_disease, email, pass } = req.query;
+            const passwrd = await bcrypt.hash(pass, 10);
+            // use userFactory to create new instance of the Use model
+            const user = UserFactory.addUser(nic, first_name, last_name, birth_day, address, phone_number, gender, emergency_contact_person, emergency_contact, health_insurance_provider, blood_group, chronic_disease, email, passwrd);
 
             await user.save();
 
-            res.status(200).send('Registration successful!');
+            res.status(200).send('User registration successfull!');
         } catch (error) {
             console.error(error);
-            res.status(500).send('Server Error');
+            res.status(500).send(error);
         }
 
     }
 
     async addAllergy(req, res) {
         try {
-            const { nic, allergy_type, allergy_name } = req.body;
+            const { nic, allergy_type, allergy_name } = req.query;
 
             const allergy = UserFactory.addAllergy(nic, allergy_type, allergy_name);
 
@@ -42,7 +44,7 @@ class userController {
 
     async addMood(req, res) {
         try {
-            const { nic, date, mood, symptoms, other_conditions } = req.body;
+            const { nic, date, mood, symptoms, other_conditions } = req.query;
 
             const moods = UserFactory.addMood(nic, date, mood, symptoms, other_conditions);
 
@@ -61,7 +63,7 @@ class userController {
 
     async addVaccine(req, res) {
         try {
-            const { nic, vaccine_name, date, dosage, batch_number, location } = req.body;
+            const { nic, vaccine_name, date, dosage, batch_number, location } = req.query;
 
             const vaccine = UserFactory.addVaccination(nic, vaccine_name, date, dosage, batch_number, location);
 
@@ -80,7 +82,7 @@ class userController {
 
     async addCurrentMed(req, res) {
         try {
-            const { nic, date_issued, med_name, type, dosage, meals, morning, noon, night, comments, state } = req.body;
+            const { nic, date_issued, med_name, type, dosage, meals, morning, noon, night, comments, state } = req.query;
 
             const meds = UserFactory.addcurrentMed(nic, date_issued, med_name, type, dosage, meals, morning, noon, night, comments, state);
 
@@ -97,104 +99,9 @@ class userController {
         }
     }
 
-    async updateMedState(req, res) {
-        try {
-            const { nic, _id } = req.body;
-    
-            const state = "Inactive";
-    
-            const user = await userModel.findOne({ nic });
-    
-            if (!user) {
-                console.log("User not found!");
-                return res.status(404).json({ message: 'User not found' });
-            }
-    
-            const current_med = user.current_meds.id(_id);
-    
-            if (!current_med) {
-                console.log("Medicine not found!");
-                return res.status(404).json({ message: 'Medicine not found' });
-            }
-    
-            const result = await userModel.findOneAndUpdate(
-                { nic: nic, "current_meds._id": _id },
-                { $set: { "current_meds.$.state": state } },
-                { new: true }
-            );
-    
-            res.status(200).json({ message: 'State updated successfully!' });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('Server Error');
-        }
-    }
-
-    async updateClinicDate(req, res) {
-        try {
-            const { nic, _id, next_clinic_date } = req.body;
-    
-            const user = await userModel.findOne({ nic });
-    
-            if (!user) {
-                console.log("User not found!");
-                return res.status(404).json({ message: 'User not found' });
-            }
-    
-            const medicalRecord = user.medical_reports.id(_id);
-    
-            if (!medicalRecord) {
-                console.log("Medical report not found!");
-                return res.status(404).json({ message: 'Medical report not found' });
-            }
-    
-            const result = await userModel.findOneAndUpdate(
-                { nic: nic, "medical_reports._id": _id },
-                { $set: { "medical_reports.$.next_clinic_date": next_clinic_date } },
-                { new: true }
-            );
-    
-            res.status(200).json({ message: 'Next clinic date updated successfully!' });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('Server Error');
-        }
-    }
-
-    async updateDischargeDate(req, res) {
-        try {
-            const { nic, _id, discharge_date } = req.body;
-    
-            const user = await userModel.findOne({ nic });
-    
-            if (!user) {
-                console.log("User not found!");
-                return res.status(404).json({ message: 'User not found' });
-            }
-    
-            const medicalRecord = user.medical_reports.id(_id);
-    
-            if (!medicalRecord) {
-                console.log("Medical report not found!");
-                return res.status(404).json({ message: 'Medical report not found' });
-            }
-    
-            const result = await userModel.findOneAndUpdate(
-                { nic: nic, "medical_reports._id": _id },
-                { $set: { "medical_reports.$.date_of_discharge": discharge_date } },
-                { new: true }
-            );
-    
-            res.status(200).json({ message: 'Date of discharge updated successfully!' });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('Server Error');
-        }
-    }
-
     async addRecord(req, res) {
         try {
-            const { nic, type, date, primary_diagnosis, doctor_in_charge, admitted_date, date_of_discharge, next_clinic_date } = req.body;
+            const { nic, type, date, primary_diagnosis, doctor_in_charge, admitted_date, date_of_discharge, next_clinic_date } = req.query;
 
             const record = UserFactory.addRecords(nic, type, date, primary_diagnosis, doctor_in_charge, admitted_date, date_of_discharge, next_clinic_date);
 
@@ -213,7 +120,7 @@ class userController {
 
     async addTreatment(req, res) {
         try {
-            const { nic, _id, date, treatment, added_by } = req.body;
+            const { nic, _id, date, treatment, added_by } = req.query;
 
             const user = await userModel.findOne({ nic: nic });
 
@@ -243,7 +150,7 @@ class userController {
 
     async addBandBFunc(req, res) {
         try {
-            const { nic, _id, date, bladder_bowel_function, added_by } = req.body;
+            const { nic, _id, date, bladder_bowel_function, added_by } = req.query;
 
             const user = await userModel.findOne({ nic: nic });
 
@@ -273,7 +180,7 @@ class userController {
 
     async addLabTest(req, res) {
         try {
-            const { nic, _id, date, test_name, test_comments, added_by } = req.body;
+            const { nic, _id, date, test_name, test_comments, added_by } = req.query;
 
             const user = await userModel.findOne({ nic: nic });
 
@@ -303,7 +210,7 @@ class userController {
 
     async addTemperature(req, res) {
         try {
-            const { nic, _id, date, temperature, added_by } = req.body;
+            const { nic, _id, date, temperature, added_by } = req.query;
 
             const user = await userModel.findOne({ nic: nic });
 
@@ -333,7 +240,7 @@ class userController {
 
     async addBPressure(req, res) {
         try {
-            const { nic, _id, date, blood_pressure, added_by } = req.body;
+            const { nic, _id, date, blood_pressure, added_by } = req.query;
 
             const user = await userModel.findOne({ nic: nic });
 
@@ -363,7 +270,7 @@ class userController {
 
     async addComments(req, res) {
         try {
-            const { nic, _id, date, comment, added_by } = req.body;
+            const { nic, _id, date, comment, added_by } = req.query;
 
             const user = await userModel.findOne({ nic: nic });
 
@@ -393,7 +300,7 @@ class userController {
 
     async addReports(req, res) {
         try {
-            const { nic, _id, date, report_name, report_type, report_link, added_by } = req.body;
+            const { nic, _id, date, report_name, report_type, report_link, added_by } = req.query;
 
             const user = await userModel.findOne({ nic: nic });
 
@@ -423,7 +330,7 @@ class userController {
 
     async getUserData(req, res) {
         try {
-            const data = await userModel.find({ nic: req.body.nic });
+            const data = await userModel.find({ nic: req.query.nic });
             res.status(200).json(data);
         }
         catch (error) {
@@ -455,7 +362,7 @@ class userController {
     async getActiveMeds(req, res) {
         try {
             const state = "Active";
-            const { nic } = req.body;
+            const { nic } = req.query;
             const user = await userModel.findOne({ nic });
 
             if (!user) {
@@ -477,9 +384,58 @@ class userController {
         }
     }
 
+
+    async getAllergies(req, res) {
+        try {
+            const { nic } = req.query;
+            const user = await userModel.findOne({ nic });
+
+            if (!user) {
+                console.log("User not found!");
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            const allergies = user.allergies;
+
+            if (!allergies) {
+                console.log("Allergies not found!");
+                return res.status(404).json({ message: 'Allergies not found' });
+            }
+
+            res.status(200).json({ allergies });
+        }
+        catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async getVaccines(req, res) {
+        try {
+            const { nic } = req.query;
+            const user = await userModel.findOne({ nic });
+
+            if (!user) {
+                console.log("User not found!");
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            const vaccinations = user.vaccinations;
+
+            if (!vaccinations) {
+                console.log("Vaccinations not found!");
+                return res.status(404).json({ message: 'Vaccinations not found' });
+            }
+
+            res.status(200).json({ vaccinations });
+        }
+        catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
     async getTreatments(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -505,7 +461,7 @@ class userController {
 
     async getMedicalRecords(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -530,7 +486,7 @@ class userController {
 
     async getBandBFunstions(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -556,7 +512,7 @@ class userController {
 
     async getLabTests(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -582,7 +538,7 @@ class userController {
 
     async getTemperatures(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -608,7 +564,7 @@ class userController {
 
     async getBPressures(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -634,7 +590,7 @@ class userController {
 
     async getComments(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -660,7 +616,7 @@ class userController {
 
     async getReports(req, res) {
         try {
-            const { nic, _id } = req.body;
+            const { nic, _id } = req.query;
 
             const user = await userModel.findOne({ nic });
 
@@ -687,13 +643,13 @@ class userController {
     async updateUserAddress(req, res) {
         try {
 
-            const { nic, n_address} = req.body;
+            const { nic, n_address } = req.query;
 
             const result = await userModel.findOneAndUpdate(
                 { nic: nic },
                 { address: n_address },
                 { maxTimeMS: 30000 }
-            ) 
+            )
 
             res.status(200).json({ message: 'Your adress is updated successfully!' });
 
@@ -706,13 +662,13 @@ class userController {
     async updateUserContact(req, res) {
         try {
 
-            const { nic, n_phone} = req.body;
+            const { nic, n_phone } = req.query;
 
             const result = await userModel.findOneAndUpdate(
                 { nic: nic },
                 { phone_number: n_phone },
                 { maxTimeMS: 30000 }
-            ) 
+            )
 
             res.status(200).json({ message: 'Your phone number is updated successfully!' });
 
@@ -722,16 +678,49 @@ class userController {
         }
     }
 
+    async updateMedState(req, res) {
+        try {
+            const { nic, _id } = req.query;
+
+            const user = await userModel.findOne({ nic: nic });
+
+            if (!user) {
+                console.log("User not found!");
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            const medRecord = user.current_meds.id(_id);
+
+            if (!medRecord) {
+                console.log("Medicine record not found!");
+                return res.status(404).json({ message: 'Medicine record not found' });
+            }
+
+            const result = await medRecord.findOneAndUpdate(
+                { _id: _id },
+                { state: state },
+                { maxTimeMS: 30000 }
+            )
+
+            res.status(200).json({ message: 'Your medication is successfully marked as completed!' });
+
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    }
+
     async updateEmContactName(req, res) {
         try {
 
-            const { nic, n_emergency_contact_person} = req.body;
+            const { nic, n_emergency_contact_person } = req.query;
 
             const result = await userModel.findOneAndUpdate(
                 { nic: nic },
                 { emergency_contact_person: n_emergency_contact_person },
                 { maxTimeMS: 30000 }
-            ) 
+            )
 
             res.status(200).json({ message: 'Your emergency contact person is updated successfully!' });
 
@@ -744,13 +733,13 @@ class userController {
     async updateEmContact(req, res) {
         try {
 
-            const { nic, n_emergency_contact} = req.body;
+            const { nic, n_emergency_contact } = req.query;
 
             const result = await userModel.findOneAndUpdate(
                 { nic: nic },
                 { emergency_contact: n_emergency_contact },
                 { maxTimeMS: 30000 }
-            ) 
+            )
 
             res.status(200).json({ message: 'Your emergency contact person phone number is updated successfully!' });
 
@@ -763,13 +752,13 @@ class userController {
     async updateBloodGroup(req, res) {
         try {
 
-            const { nic, n_blood_group } = req.body;
+            const { nic, n_blood_group } = req.query;
 
             const result = await userModel.findOneAndUpdate(
                 { nic: nic },
                 { blood_group: n_blood_group },
                 { maxTimeMS: 30000 }
-            ) 
+            )
 
             res.status(200).json({ message: 'Your blood group is updated successfully!' });
 
@@ -782,13 +771,13 @@ class userController {
     async updateChronicDiseases(req, res) {
         try {
 
-            const { nic, n_chronic_disease } = req.body;
+            const { nic, n_chronic_disease } = req.query;
 
             const result = await userModel.findOneAndUpdate(
                 { nic: nic },
                 { chronic_disease: n_chronic_disease },
                 { maxTimeMS: 30000 }
-            ) 
+            )
 
             res.status(200).json({ message: 'Your chronic diseases are updated successfully!' });
 
@@ -801,13 +790,13 @@ class userController {
     async updateHealthInsurance(req, res) {
         try {
 
-            const { nic, n_health_insurance_provider } = req.body;
+            const { nic, n_health_insurance_provider } = req.query;
 
             const result = await userModel.findOneAndUpdate(
                 { nic: nic },
                 { health_insurance_provider: n_health_insurance_provider },
                 { maxTimeMS: 30000 }
-            ) 
+            )
 
             res.status(200).json({ message: 'Your health insurance provider is updated successfully!' });
 
@@ -819,24 +808,39 @@ class userController {
 
     async deleteUser(req, res) {
         try {
+            const { nic, n_pass } = req.query;
+            const hashedPassword = await bcrypt.hash(n_pass, 10);
+            const userData = await userModel.findOne({ nic });
 
-            const { nic } = req.body;
+            if (!userData) {
+                console.log("User record not found!");
+                return res.status(404).json({ message: 'User record not found' });
+            } else {
+                const pass = userData.passwrd;
 
-            const status = "Deactivated";
+                if (hashedPassword !== pass) {
+                    console.log(hashedPassword);
+                    console.log(pass);
+                    console.log("Password Mismatch!");
+                    return res.status(401).json({ message: 'Password Mismatch!' });
+                } else {
+                    const status = "Deactivated";
 
-            const result = await userModel.findOneAndUpdate(
-                { nic: nic },
-                { status: status },
-                { maxTimeMS: 30000 }
-            ) 
+                    const result = await userModel.findOneAndUpdate(
+                        { nic: nic },
+                        { status: status },
+                        { maxTimeMS: 30000 }
+                    )
 
-            res.status(200).json({ message: 'Your account is deactivated successfully!' });
-
+                    res.status(200).json({ message: 'Your account is deactivated successfully!' });
+                }
+            }
         } catch (error) {
             console.error(error);
             res.status(500).send('Server Error');
         }
     }
+
 
 }
 
