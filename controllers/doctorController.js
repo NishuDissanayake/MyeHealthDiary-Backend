@@ -67,10 +67,10 @@ class doctorController {
     async updateDoctorHospital(req, res) {
         try {
 
-            const { _id, n_hospital } = req.query;
+            const { email, n_hospital } = req.query;
 
             const result = await doctorModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { hospital: n_hospital },
                 { maxTimeMS: 30000 }
             ) 
@@ -86,10 +86,10 @@ class doctorController {
     async updateDoctorQualifications(req, res) {
         try {
 
-            const { _id, n_qualifications } = req.query;
+            const { email, n_qualifications } = req.query;
 
             const result = await doctorModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { qualifications: n_qualifications },
                 { maxTimeMS: 30000 }
             ) 
@@ -105,10 +105,10 @@ class doctorController {
     async updateDoctorContact(req, res) {
         try {
 
-            const { _id, n_phone } = req.query;
+            const { email, n_phone } = req.query;
 
             const result = await doctorModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { phone_number: n_phone },
                 { maxTimeMS: 30000 }
             ) 
@@ -124,10 +124,10 @@ class doctorController {
     async updateDoctorPassword(req, res) {
         try {
 
-            const { _id, n_pass } = req.query;
+            const { email, n_pass } = req.query;
             const hashedPassword = await bcrypt.hash(n_[pass], 10);
             const result = await doctorModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { passwrd: hashedPassword },
                 { maxTimeMS: 30000 }
             ) 
@@ -143,12 +143,12 @@ class doctorController {
     async deleteDoctor(req, res) {
         try {
 
-            const { _id } = req.query;
+            const { email } = req.query;
 
             const status = "Deactivated";
 
             const result = await doctorModel.findOneAndUpdate(
-                { _id: _id },
+                { email: email },
                 { status: status },
                 { maxTimeMS: 30000 }
             ) 

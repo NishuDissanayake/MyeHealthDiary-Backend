@@ -56,7 +56,7 @@ exports.adminLogin = async (req, res) => {
       }
   
       // Compare password with the stored hashed password
-      const isPasswordMatch = await bcrypt.compare(password, admin.passwrd);
+      const isPasswordMatch = await bcrypt.compare(pass, admin.passwrd);
   
       // If passwords don't match, return error
       if (!isPasswordMatch) {
@@ -65,7 +65,7 @@ exports.adminLogin = async (req, res) => {
   
       // Generate JWT token
       const token = jwt.sign(
-        { userId: admin._id, role: 'admin', name: admin.admin_name, email: admin.email },
+        { userId: admin.id, role: 'admin', name: admin.admin_name, email: admin.email },
         'your-secret-key',
         { expiresIn: '1h' }
       );
@@ -91,7 +91,7 @@ exports.emtLogin = async (req, res) => {
       }
   
       // Compare password with the stored hashed password
-      const isPasswordMatch = await bcrypt.compare(password, emt.passwrd);
+      const isPasswordMatch = await bcrypt.compare(pass, emt.passwrd);
   
       // If passwords don't match, return error
       if (!isPasswordMatch) {

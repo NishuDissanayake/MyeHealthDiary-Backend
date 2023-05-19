@@ -13,7 +13,7 @@ const loginRoutes = require('./Routes/loginRoutes');
 
 app.use(
     cors({
-      origin: ["http://localhost:3000","https://srcreativespace.com"]
+      origin: ["http://localhost:3000","https://myehealthdiary.me"]
     })
   );
 
